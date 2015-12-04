@@ -17,10 +17,12 @@ use Symfony\Component\Routing\RequestContext;
 $context = new RequestContext();
 $matcher = new appDevUrlMatcher($context);
 
-$blackfire = new \Blackfire\Client();
-$probe = $blackfire->createProbe();
+if ($withBlackfire) {
+    $blackfire = new \Blackfire\Client();
+    $probe = $blackfire->createProbe();
+}
 
-$max = 10000;
+$max = 100000;
 
 $start = microtime(true);
 // Best case ==> first route
@@ -55,4 +57,6 @@ for ($i=0; $i < $max; $i++) {
 
 echo 'Not found : ' . (microtime(true) - $start) . "\n";
 
-$blackfire->endProbe($probe);
+if ($withBlackfire) {
+    $blackfire->endProbe($probe);
+}

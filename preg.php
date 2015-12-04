@@ -277,15 +277,32 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
               ),
             ),
           ),
+          '/cartes-de-voeux' => 
+          array (
+            47 => 
+            array (
+              'host' => '#^www\\.local\\.linternaute\\.com$#si',
+              'method' => 
+              array (
+              ),
+              'priority' => 47,
+              'forceSlash' => true,
+              'options' => 
+              array (
+                '_controller' => 'CCMBenchmark\\GreetingCardBundle\\Controller\\CardController::indexAction',
+                '_route' => 'card_home',
+              ),
+            ),
+          ),
           '/encyclopedie/recherche' => 
           array (
-            43 => 
+            48 => 
             array (
               'host' => NULL,
               'method' => 
               array (
               ),
-              'priority' => 43,
+              'priority' => 48,
               'forceSlash' => true,
               'options' => 
               array (
@@ -296,13 +313,13 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
           ),
           '/dictionnaire/noms-propres' => 
           array (
-            45 => 
+            50 => 
             array (
               'host' => NULL,
               'method' => 
               array (
               ),
-              'priority' => 45,
+              'priority' => 50,
               'forceSlash' => true,
               'options' => 
               array (
@@ -313,13 +330,13 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
           ),
           '/proverbe' => 
           array (
-            46 => 
+            51 => 
             array (
               'host' => NULL,
               'method' => 
               array (
               ),
-              'priority' => 46,
+              'priority' => 51,
               'forceSlash' => true,
               'options' => 
               array (
@@ -340,7 +357,7 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         // We don't need to compare the priorities
         // Because dynamicMatch returns a route only if
-        // no static route have been found
+        // no static route have been found with a lowest priority
         if (null !== $dynamicMatch) {
             return $dynamicMatch['options'];
         }
@@ -355,7 +372,6 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
     }
     private function staticMatch($pathinfo, &$allow = array())
     {
-        $allow = array();
         $context = $this->context;
         $request = $this->request;
         $staticRoutes = $this->staticRoutes;
@@ -372,6 +388,7 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 ) {
                     // If both are equals ==> pathinfo doesn't have a trailing slash
                     if ($trimmedPathInfo === $pathinfo && $route['forceSlash']) {
+                       // Will be if (false) or if (true) ==> OpCode Optimizer will remove useless code
                        if (1) {
                            return array(
                                'priority' => $route['priority'],
@@ -393,12 +410,12 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
     }
     private function dynamicMatch($pathinfo, &$allow = array(), $maxPriority = null)
     {
-        $allow = array();
         $context = $this->context;
         $request = $this->request;
 
 if (preg_match('~^(?|/dictionnaire/fr/_wdt/([^/]+)(\t{1})\t{9}|/dictionnaire/fr/_profiler/info/([^/]+)(\t{2})\t{8}|/dictionnaire/fr/_profiler/([^/]+)/search/results(\t{3})\t{7}|/dictionnaire/fr/_profiler/([^/]+)(\t{4})\t{6}|/dictionnaire/fr/_profiler/([^/]+)/router(\t{5})\t{5}|/dictionnaire/fr/_profiler/([^/]+)/exception(\t{6})\t{4}|/dictionnaire/fr/_profiler/([^/]+)/exception\.css(\t{7})\t{3}|/dictionnaire/fr/_configurator/step/([^/]+)(\t{8})\t{2}|/dictionnaire/fr/_error/(\d+)(?:\.([^/]+))?(\t{9})\t{1}|/dictionnaire/fr/definition/([^\x00-\x1f/]+)/?(\t{10})\t{0})$~s', $pathinfo . '										', $rawMatch)) {
-if ( end($rawMatch) === '	') {    $matches = array();$matches['token'] = $rawMatch[1];
+$end = end($rawMatch);
+if ( $end === '	') {    $matches = array();$matches['token'] = $rawMatch[1];
         // _wdt
         if (true) {
             return array(
@@ -406,9 +423,9 @@ if ( end($rawMatch) === '	') {    $matches = array();$matches['token'] = $rawMat
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => '_wdt')), array (  '_controller' => 'web_profiler.controller.profiler:toolbarAction',))
                          );
         }
-}if ($maxPriority &&  5 < $maxPriority ) {
+}if ($maxPriority &&  5 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '		') {    $matches = array();$matches['about'] = $rawMatch[1];
+                }if ( $end === '		') {    $matches = array();$matches['about'] = $rawMatch[1];
         // _profiler_info
         if (true) {
             return array(
@@ -416,9 +433,9 @@ if ( end($rawMatch) === '	') {    $matches = array();$matches['token'] = $rawMat
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => '_profiler_info')), array (  '_controller' => 'web_profiler.controller.profiler:infoAction',))
                          );
         }
-}if ($maxPriority &&  7 < $maxPriority ) {
+}if ($maxPriority &&  7 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '			') {    $matches = array();$matches['token'] = $rawMatch[1];
+                }if ( $end === '			') {    $matches = array();$matches['token'] = $rawMatch[1];
         // _profiler_search_results
         if (true) {
             return array(
@@ -426,9 +443,9 @@ if ( end($rawMatch) === '	') {    $matches = array();$matches['token'] = $rawMat
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => '_profiler_search_results')), array (  '_controller' => 'web_profiler.controller.profiler:searchResultsAction',))
                          );
         }
-}if ($maxPriority &&  8 < $maxPriority ) {
+}if ($maxPriority &&  8 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '				') {    $matches = array();$matches['token'] = $rawMatch[1];
+                }if ( $end === '				') {    $matches = array();$matches['token'] = $rawMatch[1];
         // _profiler
         if (true) {
             return array(
@@ -436,9 +453,9 @@ if ( end($rawMatch) === '	') {    $matches = array();$matches['token'] = $rawMat
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => '_profiler')), array (  '_controller' => 'web_profiler.controller.profiler:panelAction',))
                          );
         }
-}if ($maxPriority &&  9 < $maxPriority ) {
+}if ($maxPriority &&  9 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '					') {    $matches = array();$matches['token'] = $rawMatch[1];
+                }if ( $end === '					') {    $matches = array();$matches['token'] = $rawMatch[1];
         // _profiler_router
         if (true) {
             return array(
@@ -446,9 +463,9 @@ if ( end($rawMatch) === '	') {    $matches = array();$matches['token'] = $rawMat
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => '_profiler_router')), array (  '_controller' => 'web_profiler.controller.router:panelAction',))
                          );
         }
-}if ($maxPriority &&  10 < $maxPriority ) {
+}if ($maxPriority &&  10 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '						') {    $matches = array();$matches['token'] = $rawMatch[1];
+                }if ( $end === '						') {    $matches = array();$matches['token'] = $rawMatch[1];
         // _profiler_exception
         if (true) {
             return array(
@@ -456,9 +473,9 @@ if ( end($rawMatch) === '	') {    $matches = array();$matches['token'] = $rawMat
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => '_profiler_exception')), array (  '_controller' => 'web_profiler.controller.exception:showAction',))
                          );
         }
-}if ($maxPriority &&  11 < $maxPriority ) {
+}if ($maxPriority &&  11 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '							') {    $matches = array();$matches['token'] = $rawMatch[1];
+                }if ( $end === '							') {    $matches = array();$matches['token'] = $rawMatch[1];
         // _profiler_exception_css
         if (true) {
             return array(
@@ -466,9 +483,9 @@ if ( end($rawMatch) === '	') {    $matches = array();$matches['token'] = $rawMat
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => '_profiler_exception_css')), array (  '_controller' => 'web_profiler.controller.exception:cssAction',))
                          );
         }
-}if ($maxPriority &&  13 < $maxPriority ) {
+}if ($maxPriority &&  13 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '								') {    $matches = array();$matches['index'] = $rawMatch[1];
+                }if ( $end === '								') {    $matches = array();$matches['index'] = $rawMatch[1];
         // _configurator_step
         if (true) {
             return array(
@@ -476,9 +493,9 @@ if ( end($rawMatch) === '	') {    $matches = array();$matches['token'] = $rawMat
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => '_configurator_step')), array (  '_controller' => 'Sensio\\Bundle\\DistributionBundle\\Controller\\ConfiguratorController::stepAction',))
                          );
         }
-}if ($maxPriority &&  15 < $maxPriority ) {
+}if ($maxPriority &&  15 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '									') {    $matches = array();$matches['code'] = $rawMatch[1];
+                }if ( $end === '									') {    $matches = array();$matches['code'] = $rawMatch[1];
         // _twig_error_test
         if (true) {
             return array(
@@ -486,9 +503,9 @@ if ( end($rawMatch) === '	') {    $matches = array();$matches['token'] = $rawMat
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => '_twig_error_test')), array (  '_controller' => 'twig.controller.preview_error:previewErrorPageAction',  '_format' => 'html',))
                          );
         }
-}if ($maxPriority &&  16 < $maxPriority ) {
+}if ($maxPriority &&  16 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '										') {    $matches = array();$matches['slug'] = $rawMatch[1];
+                }if ( $end === '										') {    $matches = array();$matches['slug'] = $rawMatch[1];
         // dictionary_definition
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
@@ -504,9 +521,10 @@ if ( end($rawMatch) === '	') {    $matches = array();$matches['token'] = $rawMat
         }
 }}
 if (preg_match('~^(?|/dictionnaire/fr/citation/([a-z0-9-]+)/(\d+)/?(\t{1})\t{9}|/dictionnaire/fr/expression/([a-z0-9-]+)/(\d+)/?(\t{2})\t{8}|/dictionnaire/fr/evenement/([a-z0-9-]+)/(\d+)/?(\t{3})\t{7}|/dictionnaire/fr/synonyme/([a-z0-9-]+)/?(\t{4})\t{6}|/dictionnaire/fr/liste\-(theme|usage|type)/?(\t{5})\t{5}|/dictionnaire/fr/(theme|usage|type)/([a-z0-9-]+)/(\d+)/?(\t{6})\t{4}|/dictionnaire/fr/abecedaire/([a-z0-9]{1,2})/(\d+)/?(\t{7})\t{3}|/dictionnaire/fr/recherche\-top/(\d+)/?(\t{8})\t{2}|/dictionnaire/fr/edit/([a-z0-9-]+)/?(\t{9})\t{1}|/dictionnaire/fr/edit/([a-z0-9-]+)/(\t{10})\t{0})$~s', $pathinfo . '										', $rawMatch)) {
-if ($maxPriority &&  17 < $maxPriority ) {
+$end = end($rawMatch);
+if ($maxPriority &&  17 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '	') {    $matches = array();$matches['slug'] = $rawMatch[1];
+                }if ( $end === '	') {    $matches = array();$matches['slug'] = $rawMatch[1];
         // dictionary_citation
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
@@ -520,9 +538,9 @@ if ($maxPriority &&  17 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'dictionary_citation')), array (  '_controller' => 'CCMBenchmark\\DicoBundle\\Controller\\DefinitionController::citationAction',  'page' => '2',))
                          );
         }
-}if ($maxPriority &&  18 < $maxPriority ) {
+}if ($maxPriority &&  18 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '		') {    $matches = array();$matches['slug'] = $rawMatch[1];
+                }if ( $end === '		') {    $matches = array();$matches['slug'] = $rawMatch[1];
         // dictionary_expression
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
@@ -536,9 +554,9 @@ if ($maxPriority &&  17 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'dictionary_expression')), array (  '_controller' => 'CCMBenchmark\\DicoBundle\\Controller\\DefinitionController::expressionAction',  'page' => '2',))
                          );
         }
-}if ($maxPriority &&  19 < $maxPriority ) {
+}if ($maxPriority &&  19 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '			') {    $matches = array();$matches['slug'] = $rawMatch[1];
+                }if ( $end === '			') {    $matches = array();$matches['slug'] = $rawMatch[1];
         // dictionary_event
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
@@ -552,9 +570,9 @@ if ($maxPriority &&  17 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'dictionary_event')), array (  '_controller' => 'CCMBenchmark\\DicoBundle\\Controller\\DefinitionController::eventAction',  'page' => '2',))
                          );
         }
-}if ($maxPriority &&  20 < $maxPriority ) {
+}if ($maxPriority &&  20 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '				') {    $matches = array();$matches['slug'] = $rawMatch[1];
+                }if ( $end === '				') {    $matches = array();$matches['slug'] = $rawMatch[1];
         // dictionary_synonym
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
@@ -568,9 +586,9 @@ if ($maxPriority &&  17 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'dictionary_synonym')), array (  '_controller' => 'CCMBenchmark\\DicoBundle\\Controller\\DefinitionController::synonymAction',))
                          );
         }
-}if ($maxPriority &&  21 < $maxPriority ) {
+}if ($maxPriority &&  21 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '					') {    $matches = array();$matches['slug'] = $rawMatch[1];
+                }if ( $end === '					') {    $matches = array();$matches['slug'] = $rawMatch[1];
         // dictionary_tagsList
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
@@ -584,9 +602,9 @@ if ($maxPriority &&  17 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'dictionary_tagsList')), array (  '_controller' => 'CCMBenchmark\\DicoBundle\\Controller\\TagController::listAction',))
                          );
         }
-}if ($maxPriority &&  22 < $maxPriority ) {
+}if ($maxPriority &&  22 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '						') {    $matches = array();$matches['type'] = $rawMatch[1];
+                }if ( $end === '						') {    $matches = array();$matches['type'] = $rawMatch[1];
         // dictionary_wordsList
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
@@ -600,9 +618,9 @@ if ($maxPriority &&  17 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'dictionary_wordsList')), array (  '_controller' => 'CCMBenchmark\\DicoBundle\\Controller\\TagController::listWordsAction',  'page' => '1',))
                          );
         }
-}if ($maxPriority &&  24 < $maxPriority ) {
+}if ($maxPriority &&  24 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '							') {    $matches = array();$matches['letter'] = $rawMatch[1];
+                }if ( $end === '							') {    $matches = array();$matches['letter'] = $rawMatch[1];
         // dictionary_letters
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
@@ -616,9 +634,9 @@ if ($maxPriority &&  17 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'dictionary_letters')), array (  '_controller' => 'CCMBenchmark\\DicoBundle\\Controller\\AbcBookController::letterAction',))
                          );
         }
-}if ($maxPriority &&  27 < $maxPriority ) {
+}if ($maxPriority &&  27 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '								') {    $matches = array();$matches['page'] = $rawMatch[1];
+                }if ( $end === '								') {    $matches = array();$matches['page'] = $rawMatch[1];
         // dictionary_topSearchPages
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
@@ -632,9 +650,9 @@ if ($maxPriority &&  17 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'dictionary_topSearchPages')), array (  '_controller' => 'CCMBenchmark\\DicoBundle\\Controller\\SearchController::topSearchAction',  'page' => '1',))
                          );
         }
-}if ($maxPriority &&  31 < $maxPriority ) {
+}if ($maxPriority &&  31 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '									') {    $matches = array();$matches['slug'] = $rawMatch[1];
+                }if ( $end === '									') {    $matches = array();$matches['slug'] = $rawMatch[1];
         // dictionary_edit
         if (true) {
             if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
@@ -654,9 +672,9 @@ if ($maxPriority &&  17 < $maxPriority ) {
                          );
         }
         not_dictionary_edit:
-}if ($maxPriority &&  32 < $maxPriority ) {
+}if ($maxPriority &&  32 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '										') {    $matches = array();$matches['slug'] = $rawMatch[1];
+                }if ( $end === '										') {    $matches = array();$matches['slug'] = $rawMatch[1];
         // dictionary_edit_update
         if (true) {
             if ($this->context->getMethod() != 'POST') {
@@ -671,10 +689,11 @@ if ($maxPriority &&  17 < $maxPriority ) {
         }
         not_dictionary_edit_update:
 }}
-if (preg_match('~^(?|/dictionnaire/fr/conjugaison/([a-z0-9-]+)/?(\t{1})\t{8}|/dictionnaire/fr/sens/([a-z0-9-]+)/?(\t{2})\t{7}|/histoire/jour/(\d+)/(\d+)/a/1/0/1/index\.shtml(\t{3})\t{6}|/histoire/annee/(-?\d+)/a/1/1/index\.shtml(\t{4})\t{5}|/histoire/categorie/evenement/(\d+)/1/a/(\d+)/([\w-]+)\.shtml(\t{5})\t{4}|/citation/(\d+)/([\w-]+)/?(\t{6})\t{3}|/citation/auteur/([\w-]+)/(\d+)/?(\t{7})\t{2}|/expression/langue\-francaise/(\d+)/([\w-]+)/?(\t{8})\t{1}|/encyclopedie/recherche/id\-([^/]+)/?(\t{9})\t{0})$~s', $pathinfo . '									', $rawMatch)) {
-if ($maxPriority &&  33 < $maxPriority ) {
+if (preg_match('~^(?|/dictionnaire/fr/conjugaison/([a-z0-9-]+)/?(\t{1})\t{7}|/dictionnaire/fr/sens/([a-z0-9-]+)/?(\t{2})\t{6}|/histoire/jour/(\d+)/(\d+)/a/1/0/1/index\.shtml(\t{3})\t{5}|/histoire/annee/(-?\d+)/a/1/1/index\.shtml(\t{4})\t{4}|/histoire/categorie/evenement/(\d+)/1/a/(\d+)/([\w-]+)\.shtml(\t{5})\t{3}|/citation/(\d+)/([\w-]+)/?(\t{6})\t{2}|/citation/auteur/([\w-]+)/(\d+)/?(\t{7})\t{1}|/expression/langue\-francaise/(\d+)/([\w-]+)/?(\t{8})\t{0})$~s', $pathinfo . '								', $rawMatch)) {
+$end = end($rawMatch);
+if ($maxPriority &&  33 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '	') {    $matches = array();$matches['slug'] = $rawMatch[1];
+                }if ( $end === '	') {    $matches = array();$matches['slug'] = $rawMatch[1];
         // dictionary_conjugation
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
@@ -688,9 +707,9 @@ if ($maxPriority &&  33 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'dictionary_conjugation')), array (  '_controller' => 'CCMBenchmark\\DicoBundle\\Controller\\DefinitionController::conjugationAction',))
                          );
         }
-}if ($maxPriority &&  34 < $maxPriority ) {
+}if ($maxPriority &&  34 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '		') {    $matches = array();$matches['slug'] = $rawMatch[1];
+                }if ( $end === '		') {    $matches = array();$matches['slug'] = $rawMatch[1];
         // dictionary_meaning
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
@@ -704,9 +723,9 @@ if ($maxPriority &&  33 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'dictionary_meaning')), array (  '_controller' => 'CCMBenchmark\\DicoBundle\\Controller\\DefinitionController::meaningAction',))
                          );
         }
-}if ($maxPriority &&  35 < $maxPriority ) {
+}if ($maxPriority &&  35 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '			') {    $matches = array();$matches['day'] = $rawMatch[1];
+                }if ( $end === '			') {    $matches = array();$matches['day'] = $rawMatch[1];
         // history_day
         if (true) {
             return array(
@@ -714,9 +733,9 @@ if ($maxPriority &&  33 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'history_day')), array (  '_controller' => 'CCMBenchmarkHistoryBundle:Default:index',))
                          );
         }
-}if ($maxPriority &&  36 < $maxPriority ) {
+}if ($maxPriority &&  36 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '				') {    $matches = array();$matches['year'] = $rawMatch[1];
+                }if ( $end === '				') {    $matches = array();$matches['year'] = $rawMatch[1];
         // history_year
         if (true) {
             return array(
@@ -724,9 +743,9 @@ if ($maxPriority &&  33 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'history_year')), array (  '_controller' => 'CCMBenchmarkHistoryBundle:Default:index',))
                          );
         }
-}if ($maxPriority &&  37 < $maxPriority ) {
+}if ($maxPriority &&  37 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '					') {    $matches = array();$matches['categoryId'] = $rawMatch[1];
+                }if ( $end === '					') {    $matches = array();$matches['categoryId'] = $rawMatch[1];
         // history_event
         if (true) {
             return array(
@@ -734,9 +753,9 @@ if ($maxPriority &&  33 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'history_event')), array (  '_controller' => 'CCMBenchmarkHistoryBundle:Default:index',))
                          );
         }
-}if ($maxPriority &&  39 < $maxPriority ) {
+}if ($maxPriority &&  39 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '						') {    $matches = array();$matches['id'] = $rawMatch[1];
+                }if ( $end === '						') {    $matches = array();$matches['id'] = $rawMatch[1];
         // citation_citation
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
@@ -750,9 +769,9 @@ if ($maxPriority &&  33 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'citation_citation')), array (  '_controller' => 'CCMBenchmarkCitationBundle:Default:index',))
                          );
         }
-}if ($maxPriority &&  40 < $maxPriority ) {
+}if ($maxPriority &&  40 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '							') {    $matches = array();$matches['slug'] = $rawMatch[1];
+                }if ( $end === '							') {    $matches = array();$matches['slug'] = $rawMatch[1];
         // citation_author
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
@@ -766,9 +785,9 @@ if ($maxPriority &&  33 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'citation_author')), array (  '_controller' => 'CCMBenchmarkCitationBundle:Default:index',))
                          );
         }
-}if ($maxPriority &&  42 < $maxPriority ) {
+}if ($maxPriority &&  42 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '								') {    $matches = array();$matches['id'] = $rawMatch[1];
+                }if ( $end === '								') {    $matches = array();$matches['id'] = $rawMatch[1];
         // expression_expression
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
@@ -782,19 +801,94 @@ if ($maxPriority &&  33 < $maxPriority ) {
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'expression_expression')), array (  '_controller' => 'CCMBenchmarkExpressionBundle:Default:index',))
                          );
         }
-}if ($maxPriority &&  44 < $maxPriority ) {
+}}
+        $host = $this->context->getHost();
+
+        if (preg_match('#^www\\.local\\.linternaute\\.com$#si', $host, $hostMatches)) {
+    if (preg_match('~^(?|/cartes\-de\-voeux/card/([^\x00-\x1f/]+)/([^\x00-\x1f/]+)/?(\t{1})\t{3}|/cartes\-de\-voeux/card/preview/([^\x00-\x1f/]+)/([^\x00-\x1f/]+)/?(\t{2})\t{2}|/cartes\-de\-voeux/create/([0-9]+)\-([a-z0-9-]+)/?(\t{3})\t{1}|/cartes\-de\-voeux/thanks/([^\x00-\x1f/]+)/([^\x00-\x1f/]+)/?(\t{4})\t{0})$~s', $pathinfo . '				', $rawMatch)) {
+    $end = end($rawMatch);
+    if ($maxPriority &&  43 > $maxPriority ) {
+                        return null;
+                    }if ( $end === '	') {    $matches = array();$matches['id'] = $rawMatch[1];
+            // card_display
+            if (true) {
+                if (substr($pathinfo, -1) !== '/') {
+                    return array(
+                        'priority' => 43,
+                        'options' => $this->redirect($pathinfo.'/', 'card_display')
+                    );
+                }
+                return array(
+                                'priority' => 43,
+                                'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'card_display')), array (  '_controller' => 'CCMBenchmark\\GreetingCardBundle\\Controller\\CardController::showAction',))
+                             );
+            }
+    }if ($maxPriority &&  44 > $maxPriority ) {
+                        return null;
+                    }if ( $end === '		') {    $matches = array();$matches['id'] = $rawMatch[1];
+            // card_display_sender
+            if (true) {
+                if (substr($pathinfo, -1) !== '/') {
+                    return array(
+                        'priority' => 44,
+                        'options' => $this->redirect($pathinfo.'/', 'card_display_sender')
+                    );
+                }
+                return array(
+                                'priority' => 44,
+                                'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'card_display_sender')), array (  '_controller' => 'CCMBenchmark\\GreetingCardBundle\\Controller\\CardController::showSenderAction',))
+                             );
+            }
+    }if ($maxPriority &&  45 > $maxPriority ) {
+                        return null;
+                    }if ( $end === '			') {    $matches = array();$matches['id_card'] = $rawMatch[1];
+            // card_create
+            if (true) {
+                if (substr($pathinfo, -1) !== '/') {
+                    return array(
+                        'priority' => 45,
+                        'options' => $this->redirect($pathinfo.'/', 'card_create')
+                    );
+                }
+                return array(
+                                'priority' => 45,
+                                'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'card_create')), array (  '_controller' => 'CCMBenchmark\\GreetingCardBundle\\Controller\\CardController::createAction',))
+                             );
+            }
+    }if ($maxPriority &&  46 > $maxPriority ) {
+                        return null;
+                    }if ( $end === '				') {    $matches = array();$matches['id'] = $rawMatch[1];
+            // card_create_thanks
+            if (true) {
+                if (substr($pathinfo, -1) !== '/') {
+                    return array(
+                        'priority' => 46,
+                        'options' => $this->redirect($pathinfo.'/', 'card_create_thanks')
+                    );
+                }
+                return array(
+                                'priority' => 46,
+                                'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'card_create_thanks')), array (  '_controller' => 'CCMBenchmark\\GreetingCardBundle\\Controller\\CardController::thanksAction',))
+                             );
+            }
+    }}
+        }
+
+if (preg_match('~^(?|/encyclopedie/recherche/id\-([^/]+)/?(\t{1})\t{0})$~s', $pathinfo . '	', $rawMatch)) {
+$end = end($rawMatch);
+if ($maxPriority &&  49 > $maxPriority ) {
                     return null;
-                }if ( end($rawMatch) === '									') {    $matches = array();$matches['applicationId'] = $rawMatch[1];
+                }if ( $end === '	') {    $matches = array();$matches['applicationId'] = $rawMatch[1];
         // encyclopedia_application_search
         if (true) {
             if (substr($pathinfo, -1) !== '/') {
                 return array(
-                    'priority' => 44,
+                    'priority' => 49,
                     'options' => $this->redirect($pathinfo.'/', 'encyclopedia_application_search')
                 );
             }
             return array(
-                            'priority' => 44,
+                            'priority' => 49,
                             'options' => $this->mergeDefaults(array_replace($matches, array('_route' => 'encyclopedia_application_search')), array (  '_controller' => 'AppBundle\\Controller\\DefaultController::indexAction',))
                          );
         }
